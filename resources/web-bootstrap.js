@@ -1,12 +1,16 @@
 'use strict';
 /* global jQuery:true */
 
+var deferred = jQuery.Deferred();
+
 angular.element(document).ready(function() {
   //Fixing facebook bug with redirect
   if (window.location.hash === '#_=_') window.location.hash = '#!';
 
   //Then init the app
-  angular.bootstrap(document, ['mean']);
+  deferred.done(function() {
+    angular.bootstrap(document, ['mean']);
+  });
 
 });
 
@@ -20,6 +24,8 @@ function processModules(modules) {
   }
 
   angular.module('mean', packageModules);
+
+  deferred.resolve();
 }
 
 jQuery.ajax('/_getModules', {
